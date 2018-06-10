@@ -130,7 +130,7 @@ Přejděte do příkazového řádku a přihlaste se jako uživatel správce roo
 3. **Vytvoření bezdrátového přístupového bodu.** Raspberry Pi může být používán jako bezdrátový přístupový bod, který má samostatnou síť. To lze provést pomocí vestavěných bezdrátových prvků Raspberry Pi 3 nebo Raspberry Pi Zero W nebo pomocí vhodného bezdrátového USB klíče, který podporuje přístupové body. Bezdrátový přístupový bod vytvoříte dle náslodujícího tutoriálu [Tutorial zde](https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md). Název SSID zvolte *IoTnet* a heslo *raspberry*
 
 
-Vytvoření interní databáze MariaSQL
+### Vytvoření interní databáze MariaSQL
 
 MariDB je relační databáze, která je komunitou vyvíjenou nástupnickou větví (tzv, „forkem“) MySQL. Hlavním důvodem k vytvoření této větve bylo udržení licence svobodného softwaru GNU GPL. [odkaz10] V našem případě nám bude sloužit pro dlouhodobé ukládání dat jednotlivých senzorů. Tyto data budou sloužit pro analýzu, statistiku a vizualizaci na serveru. 
 
@@ -140,38 +140,61 @@ MariDB je relační databáze, která je komunitou vyvíjenou nástupnickou vět
 	sudo apt install -y mariadb-server
     ```
     
-    
-    
-    
-    
-    
-    
-    
-
-### Konfigurace projektu
-V této fázi máme připravené Raspberry Pi pro samotnou konfiguraci projektu a následující části se proto budeme věnovat postupy konfigurace našeho serveru.
-
-1. **Instalace MariDB.** 
-
-    ```
-	sudo apt install -y mariadb-server
-    ```
 2. **Přihlášení do MariDB a vytvoření nové databáze s názvem IoT** (defaultní heslo pro vstup do databáze je heslo uživatele root => raspberry)
 
-``` 
-mysql -u root -p // Přihlášení do MariDB
-CREATE DATABASE IoT;  // Vytvoří novou databázi s názvem IoT
-```
+	``` 
+	mysql -u root -p // Přihlášení do MariDB
+	CREATE DATABASE IoT;  // Vytvoří novou databázi s názvem IoT
+	```
 
 3. **Udělení oprávnění pro přístup do databáze**
 
-```
-   CREATE USER 'pi'@'localhost' IDENTIFIED BY 'raspberry'; // vytvoření nového uživatele pi'@'localhost identifikovatelného podle hesla raspberry
-   GRANT ALL PRIVILEGES ON IoT.* TO 'pi'@'localhost' IDENTIFIED BY 'raspberry' WITH GRANT OPTION; // povolení přístupu uživateli pi do všech tabulek v databázi IoT, který se identifikoval heslem raspberry
-   FLUSH PRIVILEGES; // flush pravidel
-```
+	```
+	   CREATE USER 'pi'@'localhost' IDENTIFIED BY 'raspberry'; // vytvoření nového uživatele pi'@'localhost identifikovatelného podle hesla raspberry
+	   GRANT ALL PRIVILEGES ON IoT.* TO 'pi'@'localhost' IDENTIFIED BY 'raspberry' WITH GRANT OPTION; // povolení přístupu uživateli pi do všech tabulek v databázi IoT, který se identifikoval heslem raspberry
+	   FLUSH PRIVILEGES; // flush pravidel
+	   USE IoT; // přepnutí se do databáze IoT, ve které budeme vytvářet nové tabulky
+	```
 
-1. **Vytvoření nové databáze a potřebných tabulek.** V příkazovém řádku zadejte příkaz `mysql -u root -p` a zadejte heslo. Pozn.: Heslo jsme volili při instalaci databázového serveru. Při zadávání příkazů nezapomeňte na konci každého příkazu zadat znak středníku.
+4. **Vytvoření tabulek** Budou vytvořeny celk 4 tabulky, každá pro jeden ze senzorů zasílající svá data serveru. Tbulka DHT11 uchovávající data o teplotě a vlhkosti, tabulka BH1750 uchovávající informace o intenzitě osvětlení, tabulka NoiseIntensity uchovávající informace o hladiny zvuku ve svém okolí a tabulka SoilMoisture uchovávající informace o detekované vlhkosti půdy.
+	
+	
+	``` 	
+	CREATE TABLE IF NOT EXISTS DHT11(
+	id INT(20) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	Temperature VARCHAR(500) NOT NULL,
+	Humidity VARCHAR(500) NOT NULL,
+	TimeStamp NUMERIC(20) NOT NULL
+	);
+	``` 
+
+	``` 
+	CREATE TABLE IF NOT EXISTS BH1750(
+	id INT(20) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	Value VARCHAR(500) NOT NULL,
+	TimeStamp NUMERIC(20) NOT NULL
+	);
+	``` 
+
+	``` 
+	CREATE TABLE IF NOT EXISTS NoiseIntensity(
+	id INT(20) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	Value VARCHAR(500) NOT NULL,
+	TimeStamp NUMERIC(20) NOT NULL
+	);
+	``` 
+
+	``` 
+	CREATE TABLE IF NOT EXISTS SoilMoisture(
+	id INT(20) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	Value VARCHAR(500) NOT NULL,
+	TimeStamp NUMERIC(20) NOT NULL
+	);
+	``` 
+	
+	
+	
+	
 	``` 
 	CREATE DATABASE IoT;  // Vytvoří novou databázi s názvem IoT
 	USE IoT;  // Přepneme se do nově vytvořené databáze IoT
@@ -193,34 +216,7 @@ CREATE DATABASE IoT;  // Vytvoří novou databázi s názvem IoT
 		);
 		```
 		 
-3. **Vytvoření nové tabulky BME280sensors** - Tato tabulka bude slouži pro ukládání záznamů z teplotních a tlakových senzoru BME280, které budou na server odesílat výše registrované zařízení Arduino. Obsahuje celkem 6 atributů:
-	
-		- id: identifikátor záznamů v tabulce
-		- DeviceID: Identifikační číslo zařízení, které data zaslalo
-		- Temperature: data o teplotě [°C]
-		- Humidity: data o vlhkosti [%]
-		- Pressure: data o barometrickém tlaku [hPa]
-		- TimeStamp: čas, ve který server data obdržel
-	
-		```
-		CREATE TABLE IF NOT EXISTS BME280sensors(
-		id INT(20) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
- 		ArduinoID VARCHAR(100) NOT NULL,
- 		Temperature FLOAT(3) NOT NULL,
- 		Humidity FLOAT(3) NOT NULL,
- 		Pressure FLOAT(3) NOT NULL,
- 		TimeStamp NUMERIC(20) NOT NULL
-		);
-		```
-	
 
-
-CREATE TABLE IF NOT EXISTS AndroidDevices(
- id INT(20) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
- Token VARCHAR(200) NOT NULL,
- Device_Name VARCHAR(100) NOT NULL,
- Device_ID VARCHAR(100) NOT NULL
-);
 	
 ### Zdroje
 - [1] https://cs.wikipedia.org/wiki/Raspberry_Pi
