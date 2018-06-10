@@ -7,24 +7,24 @@ Arduino [čti Arduíno] je v informatice název malého jednodeskového počíta
 ### Haedware
 
 - **ESP32 Development Board** - ESP32 Development board vývojová deska pro Arduino [e-shop](https://arduino-shop.cz/arduino/1581-esp-32s-esp32-development-board-2-4ghz-dual-mode-wifi-bluetooth-antenna-module-1493028819.html)
-
- 
-
-
-- **DHT11 - digitální teploměr a vlhkoměr** - Modul pro měření teploty a vlhkosti. [e-shop](https://arduino-shop.cz/arduino/829-arduino-teplomer-a-vlhkomer-digitalni-1500635986.html) | [návod](http://navody.arduino-shop.cz/navody-k-produktum/teplotni-senzor-dht11.html   ) | [datasheet](https://arduino-shop.cz/docs/produkty/0/133/1500635986.pdf) | [knihovna](https://github.com/adafruit/DHT-sensor-library)
-
-- **BME280 Modul Měření Teploty Vlhkosti** - Modul pro měření teploty a vlhkosti. [e-shop]() | [návod]() | [datasheet]() | [knihovna]()
-
-- **BME280 Modul Měření Teploty Vlhkosti** - Modul pro měření teploty a vlhkosti. [e-shop]() | [návod]() | [datasheet]() | [knihovna]()
-
-- **BME280 Modul Měření Teploty Vlhkosti** - Modul pro měření teploty a vlhkosti. [e-shop]() | [návod]() | [datasheet]() | [knihovna]()
-
-- **BME280 Modul Měření Teploty Vlhkosti** - Modul pro měření teploty a vlhkosti. [e-shop]() | [návod]() | [datasheet]() | [knihovna]()
-
-- **Senzor Plamene Infračervený Detekční Modul** - Modul detekuje plamen nebo podobné světlo o vlnové délce 760nm. [e-shop](https://arduino-shop.cz/arduino/1520-senzor-plamene-infracerveny-detekcni-modul-1486113741.html) | [návod](http://navody.arduino-shop.cz/navody-k-produktum/infracerveny-senzor-plamene.html)
-- **BME280 Modul Měření Teploty Vlhkosti** - Modul pro měření teploty, vlhkosti a barometrického tlaku obsahuje precizní senzor BME280. Tento měřící senzor od firmy Bosch komunikuje přes rozhraní I2C a zvládá komunikovat rychlostí až 3,4 MHz. [e-shop](https://arduino-shop.cz/arduino/1361-bme280-modul-mereni-teploty-vlhkosti-a-barometrickeho-tlaku-precizni-1469214547.html) | [návod](http://navody.arduino-shop.cz/navody-k-produktum/senzor-bme280-mereni-teploty-relativni-vlhkosti-a-barometrickeho-tlaku.html) | [datasheet](https://arduino-shop.cz/docs/produkty/0/91/1469214547.pdf) | [knihovna](http://navody.arduino-shop.cz/docs/texty/0/123/bme280_knihovna.zip)
+- **DHT11 - digitální teploměr a vlhkoměr** - Modul pro měření teploty a vlhkosti. [e-shop](https://arduino-shop.cz/arduino/829-arduino-teplomer-a-vlhkomer-digitalni-1500635986.html) | [návod](http://navody.arduino-shop.cz/navody-k-produktum/teplotni-senzor-dht11.html   ) | [datasheet](https://arduino-shop.cz/docs/produkty/0/133/1500635986.pdf)
+- **BH1750** - Modul pro měření měření intenzity světla. [e-shop](https://arduino-shop.cz/arduino/902-arduino-mereni-intenzity-svetla-1420672425.html) | [návod](http://navody.arduino-shop.cz/navody-k-produktum/arduino-mereni-intenzity-svetla.html) | [datasheet](https://arduino-shop.cz/docs/produkty/0/465/1420672425.pdf)
+- **Půdní Vlhkoměr** - Modul pro detekci vlhkosti půdy. [e-shop](https://arduino-shop.cz/arduino/1399-pudni-vlhkomer-modul-pro-arduino-1474354607.html) | [návod](http://navody.arduino-shop.cz/navody-k-produktum/pudni-vlhkomer.html) | [datasheet](https://arduino-shop.cz/docs/produkty/0/102/1474354607.pdf )
+- **Zvukový senzor** - Modul pro měření hladiny zvuku ve svém okolí. [e-shop](https://arduino-shop.cz/arduino/1358-modul-mikrofonu-s-analogovym-vystupem-pro-arduino-vysoka-citlivost-1467272055.html?gclid=EAIaIQobChMIn8D-sN652wIVCYjVCh0TIwfXEAQYAyABEgLXYfD_BwE) | [návod](http://navody.arduino-shop.cz/navody-k-produktum/modul-mikrofonu-s-analogovym-vystupem.html) | [datasheet](https://arduino-shop.cz/docs/produkty/0/89/1467272055.pdf)
+- **LED pásek** - [e-shop](https://www.gme.cz/led-pasek-60led-m-cool-white-4-8w-m-ip20-3m)
+- **MOSFET TIP120** - [e-shop](https://www.gme.cz/darlingtonuv-tranzistor-tip120-to220)
+- **Síťový napájecí adaptér 12V** - Wattáž volena dle délky LED pásku. např. 1,5A .. [e-shop](https://www.gme.cz/napajeci-adapter-sitovy-12v-1500ma-5-5-2-1mm-b-vigan)
 - **Vodiče, jumpers** - [e-shop F-F + F-M + M-M](https://arduino-shop.cz/arduino/1314-sada-dupont-vodicu-120-kusu-mm-ff-mf-3-druhy-1464646471.html) | [e-shop F-F](https://arduino-shop.cz/arduino-kabelaz-propoje-rozsireni/835-arduino-vodice-samice-samice-40-kusu-1500635965.html) | [e-shop F-M](https://arduino-shop.cz/arduino-kabelaz-propoje-rozsireni/1214-arduino-vodice-samice-samice-40-kusu-1457705007.html) | [e-shop M-M](https://arduino-shop.cz/arduino-kabelaz-propoje-rozsireni/1063-arduino-vodice-samec-samec-40-kusu-1500635966.html) 
 - **Kontaktní nepájivé pole** - [e-shop](https://www.gme.cz/nepajive-kontaktni-pole-zy-204) 
-- **LED (3x)** - [e-shop](https://www.gme.cz/led-5mm-warm-white-8500-30)
-- **Rezistor 220 ohm (3x)** - [e-shop](https://www.gme.cz/rm-220r-0309-1w-1)
-- **Mikrospínač (3x)** - [e-shop](https://www.gme.cz/tc-0102-t-a00) 
+
+### Knihovny
+
+Návod, jak knihovny do prostředí Arduino IDE implementovat nalezneme [zde](http://navody.arduino-shop.cz/zaciname-s-arduinem/arduino-knihovny.html) 
+
+- **DHT** - [Download](https://github.com/adafruit/DHT-sensor-library)
+- **BH1750** - [Download](https://github.com/claws/BH1750)
+- **ArduinoJson** - [Download](https://github.com/bblanchon/ArduinoJson)
+
+
+
+
