@@ -44,35 +44,27 @@ Základní struktura kódu se zkládá ze dvou hlavních funkcí. Z funkce *Setu
 
 Kromě základních funkci Setup a Loop, obsahuje kód také funkce jako jsou connectToWiFi a WiFiEvent které jsou určeny pro čipy ESP32 a jsou součásti ukázkových kódu pro WiFi s čipy ESP32. 
 
-Pokud bychom si měli popsat funkčnost samotného celého programu, funkčnost bude následující. Po spuštění kódu program prvně načte veškeré poptřebné knihovny, definuje čísla pinů jednotlivých připojených senzorů, ale především definuje heslo a SSID WiFi sítě, ke které se bude zařízení připojovat. Tyto údaje jsou důležité pro inicializaci WiFi spojení s AP naší domácí sítě a získání IP adresy DHCP serverem. Tato inicializace se spouší ve funkci Setup voláním funkce connectToWiFi s předáním parametrů SSID sítě a hesla. Tato funkce prvně odstraní veškeré staré konfigurace, registruje nového posluchače na události ve změně stavu sítě, inicializuje spojení a po sériové lince vypíše zprávu *"Waiting for WIFI connection..."*. V této chvíli se již čeká na námi registrovaného posluchače WiFiEvent, který naslouchá změnám stavu WiFi sítě, dokud není přidělena IP adresa
+Pokud bychom si měli popsat funkčnost samotného celého programu, funkčnost bude následující. Po spuštění kódu program prvně načte veškeré poptřebné knihovny, definuje čísla pinů jednotlivých připojených senzorů, ale především definuje heslo a SSID WiFi sítě, ke které se bude zařízení připojovat. Tyto údaje jsou důležité pro inicializaci WiFi spojení s AP naší domácí sítě a získání IP adresy DHCP serverem. Tato inicializace se spouší ve funkci Setup voláním funkce connectToWiFi s předáním parametrů SSID sítě a hesla. Tato funkce prvně odstraní veškeré staré konfigurace, registruje nového posluchače na události ve změně stavu sítě, inicializuje spojení a po sériové lince vypíše zprávu *"Waiting for WIFI connection..."*. V této chvíli se již čeká na námi registrovaného posluchače WiFiEvent, který naslouchá změnám stavu WiFi sítě, dokud mu není přidělena IP adresa. Po přidělení adresy se inicializuje přenost paketů pomocí protokolu UDP, změní se stav proměnné *connected* z false na true a zavolá se funkce sendBroadcastMessage. Tato funkce slouží k vytvoření broadcastu z naši získané lokální adresy, na který je následně odeslán UDP packet se zprávou "Hello server", kterou se snaží najít server v síti, kterému může zasílat veškerá svá data. 
+
+Ve chvíli, kdy máme změněný status u coonected na true, může začít probíhat samotná smyčka. Ta v cyklu v prvé řadě kontroluje příchozí paket na svém otevřeném portu, který jsme definovali v globalních proměnných a následně vykoná zbytek svého kódu v cyklu. V tomto zbytku kódu docházi ke čtení dat z připojených senzů a nasldným odesíláním těchto získánych dat serveru. Nicméně, tento zbytek kódu se neprovede do chvíle, dokud nedostaneme UDP packet od hledaného serveru, který jsme zprávou "Hello server" žádali o zaslání jeho adresy. Ve chvíli, kdy nám server odpověděl, získá se jeho adresa, na kterou je opětovně zaslaná zpráva s registračními údaji a informacemi o našem zařízení v podobě JSON objektu. Ve chvíli, kdy známe adresu našeho serveru a zařízení mám u serveru registrováno, můžeme začít zasílat jednotlivé údaje ze senzorů. Ty se odesílají každých 3000 ms v podobě JSON objektu. Tyto objekty již zpracovává samotný server, který si popíšeme v další části tutoriálu. 
 
 
 
-void WiFiEvent(WiFiEvent_t event){
-    switch(event) {
-      case SYSTEM_EVENT_STA_GOT_IP:
-          //When connected set 
-          Serial.print("WiFi connected! IP address: ");
-          Serial.println(WiFi.localIP());  
-          //initializes the UDP state
-          //This initializes the transfer buffer
-          udp.begin(WiFi.localIP(),udpPort);
-          
-          sendBroadcastMessage(WiFi.localIP().toString());
-          
-          connected = true;          
-          break;
-          
-      case SYSTEM_EVENT_STA_DISCONNECTED:
-          Serial.println("WiFi lost connection");
-          connected = false;
-          break;
-    }
-}
-
-Jakmile je zpráva vypsána, proces opouští danou funkci a přesouvá se do funkce Loop
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+https://www.arduino.cc/reference/en/
+https://arduino.cz/zaciname-s-arduinem/
 
 
