@@ -17,14 +17,35 @@ Arduino [čti Arduíno] je v informatice název malého jednodeskového počíta
 - **Vodiče, jumpers** - [e-shop F-F + F-M + M-M](https://arduino-shop.cz/arduino/1314-sada-dupont-vodicu-120-kusu-mm-ff-mf-3-druhy-1464646471.html) | [e-shop F-F](https://arduino-shop.cz/arduino-kabelaz-propoje-rozsireni/835-arduino-vodice-samice-samice-40-kusu-1500635965.html) | [e-shop F-M](https://arduino-shop.cz/arduino-kabelaz-propoje-rozsireni/1214-arduino-vodice-samice-samice-40-kusu-1457705007.html) | [e-shop M-M](https://arduino-shop.cz/arduino-kabelaz-propoje-rozsireni/1063-arduino-vodice-samec-samec-40-kusu-1500635966.html) 
 - **Kontaktní nepájivé pole** - [e-shop](https://www.gme.cz/nepajive-kontaktni-pole-zy-204) 
 
-### Knihovny
+### Software
 
-Návod, jak knihovny do prostředí Arduino IDE implementovat nalezneme [zde](http://navody.arduino-shop.cz/zaciname-s-arduinem/arduino-knihovny.html) 
+Open-source software Arduino IDE umožňuje snadné psaní kódu a jeho nahrávání na desku. Spouští se na systémech Windows, Mac OS X a Linux a jeho prostředí je napsáno v jazyce Java a je také založeno na zpracování a jiném open-source softwaru.
+Tento software lze použít s libovolnou deskou Arduino.
 
+1. **Stažení a instalace softwaru Arduino IDE** Software Arduino IDE je dostupný na oficiálních stráchkách společnosti Arduino [Download zde](https://www.arduino.cc/en/main/software). 
+
+2. **Instalace čipu ESP32** Samotný software Arduino IDE neobsahuje podporu desek s čipy ESP32, proto je nutné tuto podporu doinstalovat. Využijeme návodu vytvořeného společností Arduino-shop [Návod zde](http://navody.arduino-shop.cz/navody-k-produktum/vyvojova-deska-esp32.html).
+
+3. **Připojení desky s PC** Desku ESP32 Development Board připojte s PC. V sotwaru Arduino IDE zvolte Nástroje -> Port a zvolte port, ke kterému jste vaší desku připojili a v Nástroje -> Vývojová deska zvolte desku ESP32 Dev Module.
+
+4. **Instalace knihoven** Návod, jak knihovny do prostředí Arduino IDE implementovat nalezneme [zde](http://navody.arduino-shop.cz/zaciname-s-arduinem/arduino-knihovny.html) 
 - **DHT** - [Download](https://github.com/adafruit/DHT-sensor-library)
 - **BH1750** - [Download](https://github.com/claws/BH1750)
 - **ArduinoJson** - [Download](https://github.com/bblanchon/ArduinoJson)
 
 
+
+
+### Knihovny
+
+
+
+
+
+### Zapojení
+
+![zapojeni](https://github.com/davidvasicek/Elektronicke-zabezpecovaci-systemy---EZS/blob/master/img/Zapojeni1.png)
+
+Schéma zapojení bylo vytvořeno v open-source software Fritzing. Tento software můžeme stáhnout ze stránek [http://fritzing.org/download/](http://fritzing.org/download/) 
 
 
