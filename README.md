@@ -70,8 +70,9 @@ Firebase Realtime Database je databáze hostovaná v cloudu. Data jsou uložena 
 
 2. **Vytvoření nového projektu** na stránkách [https://console.firebase.google.com/](https://console.firebase.google.com/) vytvořte nový projekt kliknutím na tlačítko *Add project*. V dalším kroku vyplňte potřebné údaje a nový projekt vytvořte stisknutím *CREATE PROJEKT*.
 
+## Raspberry Pi
 
-**Raspberry Pi** (výslovnost [ˈraːzbəri pai]) je v informatice název malého jednodeskového počítače s deskou plošných spojů o velikosti zhruba platební karty. V roce 2012 byl vyvinut britskou nadací Raspberry Pi Foundantion s cílem podpořit výuku informatiky ve školách a seznámit studenty s tím, jak mohou počítače řídit různá zařízení (např. mikrovlnná trouba, automatická pračka). Primárním operačním systémem je Raspbian. Cena je na konci roku 2016 v rozmezí 150–1 200 Kč (nejlevnější je Raspberry Pi Zero, nejdražší pak Raspberry Pi 3 Model B). Označení „Raspberry Pi“ je registrovanou ochrannou známkou, a proto mají podobně navržené počítače zdánlivě odvozené názvy (např. Banana Pi) [1]
+Raspberry Pi (výslovnost [ˈraːzbəri pai]) je v informatice název malého jednodeskového počítače s deskou plošných spojů o velikosti zhruba platební karty. V roce 2012 byl vyvinut britskou nadací Raspberry Pi Foundantion s cílem podpořit výuku informatiky ve školách a seznámit studenty s tím, jak mohou počítače řídit různá zařízení (např. mikrovlnná trouba, automatická pračka). Primárním operačním systémem je Raspbian. Cena je na konci roku 2016 v rozmezí 150–1 200 Kč (nejlevnější je Raspberry Pi Zero, nejdražší pak Raspberry Pi 3 Model B). Označení „Raspberry Pi“ je registrovanou ochrannou známkou, a proto mají podobně navržené počítače zdánlivě odvozené názvy (např. Banana Pi) [1]
 
 ### Instalace OS
 
@@ -105,33 +106,70 @@ Přejděte do příkazového řádku a přihlaste se jako uživatel správce roo
     	// změťe #write_enable=YES na write_enable=YES
     /etc/init.d/vsftpd restart
     ```
-2. **Instalace MariDB.** MariDB je relační databáze, která je komunitou vyvíjenou nástupnickou větví (tzv, „forkem“) MySQL. Hlavním důvodem k vytvoření této větve bylo udržení licence svobodného softwaru GNU GPL. [odkaz10]
 
-    ```
-	sudo apt install -y mariadb-server
-    ```
-	
-3. **Instalace Node JS a npm.** Node.js je softwarový systém navržený pro psaní vysoce škálovatelných internetových aplikací, především webových serverů. Programy pro Node.js jsou psané v jazyce JavaScript, hojně využívající model událostí a asynchronní I/O operace pro minimalizaci režie procesoru a maximalizaci výkonu [4]. Npm je správce balíčků pro programovací jazyk JavaScript. [5]
+2. **Instalace Node JS a npm.** Node.js je softwarový systém navržený pro psaní vysoce škálovatelných internetových aplikací, především webových serverů. Programy pro Node.js jsou psané v jazyce JavaScript, hojně využívající model událostí a asynchronní I/O operace pro minimalizaci režie procesoru a maximalizaci výkonu [4]. Npm je správce balíčků pro programovací jazyk JavaScript. [5]
     
     ``` 
 	curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 	apt-get install nodejs
+	apt-get install npm
 	node -v
 	npm -v
     ``` 
    
    vytvoření ukázkového skriptu:
     ```
-    mkdir /home/pi/nodejs
-    cd /home/pi/nodejs
-    nano test.js
-    	console.log("Hello world");
-    node test.js
+    mkdir /home/pi/IoT
+    chmod 777 /home/pi/IoT
+    cd /home/pi/IoT
+    nano server.js
+    	console.log("Hello world, I am IoT server");
+    chmod 777 server.js
+    node server.js
 	``` 
-4. **Vytvoření bezdrátového přístupového bodu.** Raspberry Pi může být používán jako bezdrátový přístupový bod, který má samostatnou síť. To lze provést pomocí vestavěných bezdrátových prvků Raspberry Pi 3 nebo Raspberry Pi Zero W nebo pomocí vhodného bezdrátového USB klíče, který podporuje přístupové body. Bezdrátový přístupový bod vytvoříte dle náslodujícího tutoriálu [Tutorial zde](https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md)
-	
+3. **Vytvoření bezdrátového přístupového bodu.** Raspberry Pi může být používán jako bezdrátový přístupový bod, který má samostatnou síť. To lze provést pomocí vestavěných bezdrátových prvků Raspberry Pi 3 nebo Raspberry Pi Zero W nebo pomocí vhodného bezdrátového USB klíče, který podporuje přístupové body. Bezdrátový přístupový bod vytvoříte dle náslodujícího tutoriálu [Tutorial zde](https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md). Název SSID zvolte *IoTnet* a heslo *raspberry*
+
+
+Vytvoření interní databáze MariaSQL
+
+MariDB je relační databáze, která je komunitou vyvíjenou nástupnickou větví (tzv, „forkem“) MySQL. Hlavním důvodem k vytvoření této větve bylo udržení licence svobodného softwaru GNU GPL. [odkaz10] V našem případě nám bude sloužit pro dlouhodobé ukládání dat jednotlivých senzorů. Tyto data budou sloužit pro analýzu, statistiku a vizualizaci na serveru. 
+
+1. **Instalace MariDB.** 
+
+    ```
+	sudo apt install -y mariadb-server
+    ```
+    
+    
+    
+    
+    
+    
+    
+    
+
 ### Konfigurace projektu
 V této fázi máme připravené Raspberry Pi pro samotnou konfiguraci projektu a následující části se proto budeme věnovat postupy konfigurace našeho serveru.
+
+1. **Instalace MariDB.** 
+
+    ```
+	sudo apt install -y mariadb-server
+    ```
+2. **Přihlášení do MariDB a vytvoření nové databáze s názvem IoT** (defaultní heslo pro vstup do databáze je heslo uživatele root => raspberry)
+
+``` 
+mysql -u root -p // Přihlášení do MariDB
+CREATE DATABASE IoT;  // Vytvoří novou databázi s názvem IoT
+```
+
+3. **Udělení oprávnění pro přístup do databáze**
+
+```
+   CREATE USER 'pi'@'localhost' IDENTIFIED BY 'raspberry'; // vytvoření nového uživatele pi'@'localhost identifikovatelného podle hesla raspberry
+   GRANT ALL PRIVILEGES ON IoT.* TO 'pi'@'localhost' IDENTIFIED BY 'raspberry' WITH GRANT OPTION; // povolení přístupu uživateli pi do všech tabulek v databázi IoT, který se identifikoval heslem raspberry
+   FLUSH PRIVILEGES; // flush pravidel
+```
 
 1. **Vytvoření nové databáze a potřebných tabulek.** V příkazovém řádku zadejte příkaz `mysql -u root -p` a zadejte heslo. Pozn.: Heslo jsme volili při instalaci databázového serveru. Při zadávání příkazů nezapomeňte na konci každého příkazu zadat znak středníku.
 	``` 
