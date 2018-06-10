@@ -4,7 +4,7 @@
 
 Arduino [čti Arduíno] je v informatice název malého jednodeskového počítače založeného na mikrokontrolerech ATmega od firmy Atmel. Svým návrhem se snaží podpořit výuku informatiky ve školách a seznámit studenty s tím, jak jsou pomocí počítačů řízena různá zařízení (např. mikrovlnná trouba, automatická pračka a jiné stroje). Nejedná se tedy o počítač ve smyslu stolního počítače nebo chytrého telefonu. Nelze proto k němu snadno přímo připojit monitor ani klávesnici či myš, ale je připraven na připojení LED diod, displeje z tekutých krystalů, servomotorů, senzorů, osvětlení atd. [1]
 
-### Haedware
+### Hardware
 
 - **ESP32 Development Board** - ESP32 Development board vývojová deska pro Arduino [e-shop](https://arduino-shop.cz/arduino/1581-esp-32s-esp32-development-board-2-4ghz-dual-mode-wifi-bluetooth-antenna-module-1493028819.html)
 - **DHT11 - digitální teploměr a vlhkoměr** - Modul pro měření teploty a vlhkosti. [e-shop](https://arduino-shop.cz/arduino/829-arduino-teplomer-a-vlhkomer-digitalni-1500635986.html) | [návod](http://navody.arduino-shop.cz/navody-k-produktum/teplotni-senzor-dht11.html   ) | [datasheet](https://arduino-shop.cz/docs/produkty/0/133/1500635986.pdf)
@@ -26,17 +26,10 @@ Tento software lze použít s libovolnou deskou Arduino.
 
 2. **Instalace čipu ESP32** Samotný software Arduino IDE neobsahuje podporu desek s čipy ESP32, proto je nutné tuto podporu doinstalovat. Využijeme návodu vytvořeného společností Arduino-shop [Návod zde](http://navody.arduino-shop.cz/navody-k-produktum/vyvojova-deska-esp32.html).
 
-3. **Připojení desky s PC** Desku ESP32 Development Board připojte s PC. V sotwaru Arduino IDE zvolte Nástroje -> Port a zvolte port, ke kterému jste vaší desku připojili a v Nástroje -> Vývojová deska zvolte desku ESP32 Dev Module.
+3. **Připojení desky s PC** Desku ESP32 Development Board připojte s PC. V sotwaru Arduino IDE zvolte Nástroje -> Port a zvolte port, ke kterému jste vaší desku připojili. Následně v Nástroje -> Vývojová deska zvolte desku, pro kterou budete vyvíjet. V našem případě se jedná o desku *ESP32 Dev Module*.
 
-4. **Instalace knihoven** Návod, jak knihovny do prostředí Arduino IDE implementovat nalezneme [zde](http://navody.arduino-shop.cz/zaciname-s-arduinem/arduino-knihovny.html) 
-- **DHT** - [Download](https://github.com/adafruit/DHT-sensor-library)
-- **BH1750** - [Download](https://github.com/claws/BH1750)
-- **ArduinoJson** - [Download](https://github.com/bblanchon/ArduinoJson)
+4. **Instalace knihoven** Návod, jak knihovny do prostředí Arduino IDE implementovat nalezneme [zde](http://navody.arduino-shop.cz/zaciname-s-arduinem/arduino-knihovny.html). Pořebné knihovny: **DHT** [Download](https://github.com/adafruit/DHT-sensor-library), **BH1750** [Download](https://github.com/claws/BH1750), **ArduinoJson** [Download](https://github.com/bblanchon/ArduinoJson)
 
-
-
-
-### Knihovny
 
 
 
