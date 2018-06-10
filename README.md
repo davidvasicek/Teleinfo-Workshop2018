@@ -205,9 +205,34 @@ Kód severu se skládá především z posluchače UDP pakétů a několika posl
 
 Pro účely našeho projektu využijeme webový server Apache HTTP Server, který nainstalujeme příkazem
 
-	``` 
+    ```
 	apt-get install apache2
-	```
+    ```
+    
+Tento webový server očekává svá data v adresáři /var/www/html. Proto 
+
+
+
+
+
+
+
+apt-cache pkgnames | grep php7.0
+sudo apt-get install -y php7.0 libapache2-mod-php7.0 php7.0-cli php7.0-common php7.0-mbstring php7.0-gd php7.0-intl php7.0-xml php7.0-mysql php7.0-mcrypt php7.0-zip
+(více na https://www.vultr.com/docs/how-to-install-and-configure-php-70-or-php-71-on-ubuntu-16-04)
+sudo systemctl restart apache2
+
+
+dashboard ---------------------------------------------------
+
+1) stažení souboru čistého kódu: https://github.com/puikinsh/sufee-admin-dashboard
+2) apt-get install apache2
+3) překopírování kodu do adresáře /var/www/html
+4) povolení práv ... chmod 777 -R /var/www/html
+
+
+
+ADD ANOTHER PROJECT - Add Firebase to your web app - zkopirování zdrojového kódu a vložením do webu
 
 
 
