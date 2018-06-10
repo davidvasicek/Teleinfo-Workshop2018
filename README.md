@@ -22,23 +22,57 @@ Arduino [čti Arduíno] je v informatice název malého jednodeskového počíta
 Open-source software Arduino IDE umožňuje snadné psaní kódu a jeho nahrávání na desku. Spouští se na systémech Windows, Mac OS X a Linux a jeho prostředí je napsáno v jazyce Java a je také založeno na zpracování a jiném open-source softwaru.
 Tento software lze použít s libovolnou deskou Arduino.
 
-1. **Stažení a instalace softwaru Arduino IDE** Software Arduino IDE je dostupný na oficiálních stráchkách společnosti Arduino [Download zde](https://www.arduino.cc/en/main/software). 
+1. **Stažení a instalace softwaru Arduino IDE** - Software Arduino IDE je dostupný na oficiálních stráchkách společnosti Arduino [Download zde](https://www.arduino.cc/en/main/software). 
 
-2. **Instalace čipu ESP32** Samotný software Arduino IDE neobsahuje podporu desek s čipy ESP32, proto je nutné tuto podporu doinstalovat. Využijeme návodu vytvořeného společností Arduino-shop [Návod zde](http://navody.arduino-shop.cz/navody-k-produktum/vyvojova-deska-esp32.html).
+2. **Instalace čipu ESP32** - Samotný software Arduino IDE neobsahuje podporu desek s čipy ESP32, proto je nutné tuto podporu doinstalovat. Využijeme návodu vytvořeného společností Arduino-shop [Návod zde](http://navody.arduino-shop.cz/navody-k-produktum/vyvojova-deska-esp32.html).
 
-3. **Připojení desky s PC** Desku ESP32 Development Board připojte s PC. V sotwaru Arduino IDE zvolte Nástroje -> Port a zvolte port, ke kterému jste vaší desku připojili. Následně v Nástroje -> Vývojová deska zvolte desku, pro kterou budete vyvíjet. V našem případě se jedná o desku *ESP32 Dev Module*.
+3. **Připojení desky s PC** - Desku ESP32 Development Board připojte s PC. V sotwaru Arduino IDE zvolte Nástroje -> Port a zvolte port, ke kterému jste vaší desku připojili. Následně v Nástroje -> Vývojová deska zvolte desku, pro kterou budete vyvíjet. V našem případě se jedná o desku *ESP32 Dev Module*.
 
-4. **Instalace knihoven** Návod, jak knihovny do prostředí Arduino IDE implementovat nalezneme [zde](http://navody.arduino-shop.cz/zaciname-s-arduinem/arduino-knihovny.html). Pořebné knihovny: **DHT** [Download](https://github.com/adafruit/DHT-sensor-library), **BH1750** [Download](https://github.com/claws/BH1750), **ArduinoJson** [Download](https://github.com/bblanchon/ArduinoJson)
-
-
-
-
-
+4. **Instalace knihoven** - Návod, jak knihovny do prostředí Arduino IDE implementovat nalezneme [zde](http://navody.arduino-shop.cz/zaciname-s-arduinem/arduino-knihovny.html). Pořebné knihovny: **DHT** [Download](https://github.com/adafruit/DHT-sensor-library), **BH1750** [Download](https://github.com/claws/BH1750), **ArduinoJson** [Download](https://github.com/bblanchon/ArduinoJson)
 
 ### Zapojení
 
 ![zapojeni](https://github.com/davidvasicek/Elektronicke-zabezpecovaci-systemy---EZS/blob/master/img/Zapojeni1.png)
 
-Schéma zapojení bylo vytvořeno v open-source software Fritzing. Tento software můžeme stáhnout ze stránek [http://fritzing.org/download/](http://fritzing.org/download/) 
+Schéma zapojení bylo vytvořeno v open-source software Fritzing. Tento software můžeme stáhnout ze stránek [http://fritzing.org/download/](http://fritzing.org/download/). Všechny použité komponenty hardwaru, které musely být do tohoto programu importovány naleznete [zde TODO]()
+
+### Kód
+
+Kód projektu pro ESP32 stáhneme z následujícího odkazu. [Arduino.ino TODO]()
+
+Základní struktura kódu se zkládá ze dvou hlavních funkcí. Z funkce *Setup* a funkce *Loop*, které se spouští automaticky po inicializaci knihoven a globalních proměnných. Funkce Setup se spouští po každém zapnutí nebo resetování desky Arduino pouze jednou a slouží k inicializaci proměnných, definování režimů pinů, volání knihoven apod. Funkce Loop, jak už její název napovídá bude prováděna automaticky, což umožňuje arduinu reágovat na změny a provádět požadované úkony. 
+
+Kromě základních funkci Setup a Loop, obsahuje kód také funkce jako jsou connectToWiFi a WiFiEvent které jsou určeny pro čipy ESP32 a jsou součásti ukázkových kódu pro WiFi s čipy ESP32. 
+
+Pokud bychom si měli popsat funkčnost samotného celého programu, funkčnost bude následující. Po spuštění kódu program prvně načte veškeré poptřebné knihovny, definuje čísla pinů jednotlivých připojených senzorů, ale především definuje heslo a SSID WiFi sítě, ke které se bude zařízení připojovat. Tyto údaje jsou důležité pro inicializaci WiFi spojení s AP naší domácí sítě a získání IP adresy DHCP serverem. Tato inicializace se spouší ve funkci Setup voláním funkce connectToWiFi s předáním parametrů SSID sítě a hesla. Tato funkce prvně odstraní veškeré staré konfigurace, registruje nového posluchače na události ve změně stavu sítě, inicializuje spojení a po sériové lince vypíše zprávu *"Waiting for WIFI connection..."*. V této chvíli se již čeká na námi registrovaného posluchače WiFiEvent, který naslouchá změnám stavu WiFi sítě, dokud není přidělena IP adresa
+
+
+
+void WiFiEvent(WiFiEvent_t event){
+    switch(event) {
+      case SYSTEM_EVENT_STA_GOT_IP:
+          //When connected set 
+          Serial.print("WiFi connected! IP address: ");
+          Serial.println(WiFi.localIP());  
+          //initializes the UDP state
+          //This initializes the transfer buffer
+          udp.begin(WiFi.localIP(),udpPort);
+          
+          sendBroadcastMessage(WiFi.localIP().toString());
+          
+          connected = true;          
+          break;
+          
+      case SYSTEM_EVENT_STA_DISCONNECTED:
+          Serial.println("WiFi lost connection");
+          connected = false;
+          break;
+    }
+}
+
+Jakmile je zpráva vypsána, proces opouští danou funkci a přesouvá se do funkce Loop
+
+
+
 
 
